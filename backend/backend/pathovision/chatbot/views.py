@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 
 
 def chatbot_page(request):
-    return render(request, 'new 2.html')
+    return render(request, 'chat page.html')
 
 # @login_required
 # def upload_image(request):
