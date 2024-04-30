@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PathoVision</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+			background:
+			linear-gradient(to right, #00ffff, #8a2be2);
+        }
+        .chat-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            background-color: #8a2be2;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .chat-header {
+            background-color: #0059ff;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+        .chat-messages {
+            padding: 10px;
+            overflow-y: auto;
+            max-height: 300px;
+        }
+        .message {
+            margin-bottom: 10px;
+        }
+        .message.sender {
+            text-align: right;
+        }
+        .message.receiver {
+            text-align: left;
+        }
+        .message p {
+            background-color: #e5e5ea;
+            padding: 8px;
+            border-radius: 8px;
+            display: inline-block;
+            max-width: 70%;
+        }
+        .message img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin-top: 5px;
+        }
+        .chat-input {
+            padding: 10px;
+            display: flex;
+            background-color: #f5f5f5;
+        }
+        .chat-input input[type="file"] {
+            display: none;
+        }
+        .chat-input label {
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            background-color: #007bff;
+            color: #fff;
+            margin-right: 10px;
+        }
+        .chat-input button {
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            background-color: #007bff;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <h2>PathoVision</h2>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            <!-- Messages will be added here dynamically -->
+        </div>
+        <div class="chat-input">
+            <input type="file" id="image-input" accept="image/*">
+            <label for="image-input">Attach Image</label>
+            <button id="send-button">Send</button>
+        </div>
+    </div>
+
+    <!-- JavaScript for sending messages and attaching images -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var imageInput = document.getElementById('image-input');
+            var sendButton = document.getElementById('send-button');
+            var chatMessages = document.getElementById('chat-messages');
+            var firstMessageSent = false;
+
+         sendButton.addEventListener('click', function() {
+                if (!firstMessageSent) {
+                    var imageFile = imageInput.files[0];
+                    if (imageFile) {
+                        appendImage('sender', imageFile);
+                        firstMessageSent = true;
+                        // Show popup
+                        alert('Image attached successfully!');
+                    }
+                } else {
+                    appendOptions();
+                }
+            });
+
+			imageInput.addEventListener('change', function() {
+                var imageFile = imageInput.files[0];
+				if (!firstMessageSent) {
+                if (imageFile) {
+                    appendImage('sender', imageFile);
+                    firstMessageSent = true;
+                    // Show popup
+                   // modal.style.display = "block";
+				   alert('Image attached successfully!');
+				   setTimeout(function() {
+                        appendMessage('receiver', 'you are diagonized with ________');
+                    }, 500);
+                }
+            }});
+
+            function appendOptions() {
+                var messageWrapper = document.createElement('div');
+                var options = document.createElement('p');
+                options.textContent = "Please select an option:";
+                var yesOption = document.createElement('button');
+                yesOption.textContent = "Yes";
+                yesOption.addEventListener('click', function() {
+                    appendMessage('sender', 'Yes');
+                });
+                var noOption = document.createElement('button');
+                noOption.textContent = "No";
+                noOption.addEventListener('click', function() {
+                    appendMessage('sender', 'No');
+                });
+                messageWrapper.appendChild(options);
+                messageWrapper.appendChild(yesOption);
+                messageWrapper.appendChild(noOption);
+                messageWrapper.classList.add('message');
+                messageWrapper.classList.add('receiver');
+                chatMessages.appendChild(messageWrapper);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            function appendImage(type, file) {
+                var messageWrapper = document.createElement('div');
+                var image = document.createElement('img');
+                image.src = URL.createObjectURL(file);
+                messageWrapper.appendChild(image);
+                messageWrapper.classList.add('message');
+                messageWrapper.classList.add(type);
+                chatMessages.appendChild(messageWrapper);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            function appendMessage(type, text) {
+                var messageWrapper = document.createElement('div');
+                var message = document.createElement('p');
+                message.textContent = text;
+                messageWrapper.appendChild(message);
+                messageWrapper.classList.add('message');
+                messageWrapper.classList.add(type);
+                chatMessages.appendChild(messageWrapper);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            // Receiver's first message
+            setTimeout(function() {
+                appendMessage('receiver', 'Hello, this is PathoVision, please attach the image for validating...');
+            }, 500); // Delay for demo purposes
+        });
+				span.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+    </script>
+</body>
+</html>
