@@ -6,9 +6,8 @@ app_name = 'chatbot'
 
 
 urlpatterns = [
+    path("upload", views.model_image, name='upload'),
     path("home", views.chatbot_page, name='chatbot_page'),
-    path('upload/', views.upload_image, name='upload'),
 ]
-
 
 
