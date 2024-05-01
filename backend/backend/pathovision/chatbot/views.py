@@ -13,6 +13,8 @@ import random
 def chatbot_page(request):
     return render(request, 'Attach image.html')
 
+
+
 def model_image(request):
     if request.method == 'POST':
         image_file = request.FILES.get('image')
@@ -21,7 +23,6 @@ def model_image(request):
             # Create the image folder if it doesn't exist
             if not os.path.exists('image'):
                 os.makedirs('image')
-                print("all set")
 
             # Save the image file
             file_path = os.path.join('image', image_file.name)
@@ -30,11 +31,11 @@ def model_image(request):
                     destination.write(chunk)
 
             result = ml_code(file_path)
-            #fetch the quection for result
+            questions = ['asd', 'ert', 'dfg', 'dry']
+            
 
-            question =['asd','ert','dfg','dry']
+    return render(request, 'quiz.html', {'result': result, 'questions': questions})
 
-    return
 
 
 

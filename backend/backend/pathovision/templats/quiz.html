@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result</title>
+</head>
+<body>
+    <h1>Result</h1>
+    <p>ML Result: {{ result }}</p>
+    <h2>Questions</h2>
+    <form  action="{% url 'login' %}" method="post" class="login">
+        {% csrf_token %}
+        {% for question in questions %}
+            <label>{{ question }} (Yes or No): <input type="text" name="answers"></label><br>
+        {% endfor %}
+        <button type="submit">Submit Answers</button>
+    </form>
+</body>
+</html>
