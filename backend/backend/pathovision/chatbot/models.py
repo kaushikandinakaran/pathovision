@@ -30,3 +30,10 @@ class schedule(models.Model):
     date = models.dateField()
     time_from = models.timeField()
     time_to = models.timeField()
+
+class survey_ans(models.Model):
+    survey_id = models.AutoField(primary_key=True)
+    patient_id = models.IntegerField()
+    qust_id = models.IntegerField()
+    option_id = models.IntegerField()
+    image_path = models.CharField(max_length=100, unique=True)
