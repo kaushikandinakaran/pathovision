@@ -10,16 +10,15 @@ class question_master(models.Model):
 class question_details(models.Model):
     qust_d_id = models.AutoField(primary_key=True)
     qust_id = models.IntegerField()
-    questions = models.CharField(max_length=500, unique=True)
+    questions = models.CharField(max_length=500)
     qust_type = models.IntegerField(default=1)
     order = models.IntegerField(default=1)
     parent_id = models.IntegerField(default=0)
-    is_enabled = models.IntegerField(max_length=1, default=1)
 
 class option_details(models.Model):
     option_id = models.AutoField(primary_key=True)
     qust_d_id = models.IntegerField()
-    option = models.CharField(max_length=100, unique=True)
+    option = models.CharField(max_length=100)
     order = models.IntegerField(default=1)
     is_enabled = models.IntegerField(max_length=1, default=1)
 
