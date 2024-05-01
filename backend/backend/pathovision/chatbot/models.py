@@ -27,6 +27,13 @@ class schedule(models.Model):
     schedule_id = models.AutoField(primary_key=True)
     doctor_id = models.IntegerField()
     patient_id = models.IntegerField()
-    date = models.dateField()
-    time_from = models.timeField()
-    time_to = models.timeField()
+    date = models.DateField()
+    time_from = models.TimeField()
+    time_to = models.TimeField()
+
+class survey_ans(models.Model):
+    survey_id = models.AutoField(primary_key=True)
+    patient_id = models.IntegerField()
+    qust_id = models.IntegerField()
+    option_id = models.IntegerField()
+    image_path = models.CharField(max_length=100, unique=True)

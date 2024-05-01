@@ -165,29 +165,33 @@
                 messageWrapper.classList.add(type);
                 chatMessages.appendChild(messageWrapper);
                 chatMessages.scrollTop = chatMessages.scrollHeight;
-				var input = document.getElementById('imageInput');
-				var file = input.files[0];
-				var formData = new FormData();
-				var formattedDate = currentDate.getFullYear() + '-' +
+				}
+			function uploadImage() {
+            var input = document.getElementById('imageInput');
+            var file = input.files[0];
+            var formData = new FormData();
+            var currentDate = new Date();
+            var formattedDate = currentDate.getFullYear() + '-' +
                                 ('0' + (currentDate.getMonth() + 1)).slice(-2) + '-' +
                                 ('0' + currentDate.getDate()).slice(-2) + '_' +
                                 ('0' + currentDate.getHours()).slice(-2) + '-' +
                                 ('0' + currentDate.getMinutes()).slice(-2) + '-' +
                                 ('0' + currentDate.getSeconds()).slice(-2);
-				var newFileName = 'image_' + formattedDate + '.jpg'; // Example: image_2022-04-30_12-30-15.jpg
-				formData.append('image', file, newFileName);
+            var newFileName = 'image_' + formattedDate + '.jpg'; // Example: image_2022-04-30_12-30-15.jpg
+            formData.append('image', file, newFileName);
 
-				var xhr = new XMLHttpRequest();
-				xhr.open('POST', '/upload/', false);
-				xhr.onload = function () {
-					if (xhr.status === 200) {
-						window.location.href = '/success/';
-					} else {
-						alert('Upload failed. Please try again.');
-							}
-					};
-				xhr.send(formData);
-				}
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/upload/', true);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    var messageDiv = document.getElementById('message');
+                    messageDiv.innerHTML = 'Received image: ' + newFileName;
+                } else {
+                    alert('Upload failed. Please try again.');
+                }
+            };
+            xhr.send(formData);
+        }
             function appendMessage(type, text) {
                 var messageWrapper = document.createElement('div');
                 var message = document.createElement('p');
