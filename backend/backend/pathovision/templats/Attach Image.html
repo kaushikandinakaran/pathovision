@@ -4,12 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image Upload Form</title>
+    <style>
+        /* Center align the form */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #00bfff;
+        }
+        form {
+            text-align: center;
+            background-color: #fff; /* White background */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
+        }
+        h2 {
+            color: #333; /* Dark gray text color */
+        }
+        input[type="file"] {
+            margin-bottom: 10px;
+        }
+        button[type="submit"] {
+            background-color: #4CAF50; /* Green */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button[type="submit"]:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+    </style>
 </head>
 <body>
-    <h2>Upload an Image</h2>
+    <h2>Upload an Image: </h2>
     <form action="{% url 'chatbot:upload' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <input type="file" name="image" accept="image/*" required>
+        <br>
         <button type="submit">Upload</button>
     </form>
 </body>
