@@ -11,8 +11,11 @@ from .models import question_master
 
 
 
+
 def chatbot_page(request):
     return render(request, 'Attach image.html')
+
+
 
 def model_image(request):
     if request.method == 'POST':
@@ -22,7 +25,6 @@ def model_image(request):
             # Create the image folder if it doesn't exist
             if not os.path.exists('image'):
                 os.makedirs('image')
-                print("all set")
 
             # Save the image file
             file_path = os.path.join('image', image_file.name)
@@ -31,15 +33,21 @@ def model_image(request):
                     destination.write(chunk)
 
             result = ml_code(file_path)
-            #fetch the quection for result
+
             data1 = question_master.objects.all()
             print(data1)
             for item in data1:
-                print(item)
+                 
+                print("ID:", item.qust_id)
+                print("Question:", item.qust_title)
+                print("is_enabled:", item.is_enabled)
 
-            question =['asd','ert','dfg','dry']
 
-    return
+            questions = ['asd', 'ert', 'dfg', 'dry']
+            
+
+    return render(request, 'quiz.html', {'result': result, 'questions': questions})
+
 
 
 
