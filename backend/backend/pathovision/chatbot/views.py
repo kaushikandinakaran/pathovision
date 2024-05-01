@@ -7,6 +7,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 # from .forms import ImageUploadForm
 import random
+from .models import question_master
 
 
 
@@ -31,6 +32,10 @@ def model_image(request):
 
             result = ml_code(file_path)
             #fetch the quection for result
+            data1 = question_master.objects.all()
+            print(data1)
+            for item in data1:
+                print(item)
 
             question =['asd','ert','dfg','dry']
 

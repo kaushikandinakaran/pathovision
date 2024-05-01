@@ -100,29 +100,3 @@ def signup(request):
             return JsonResponse({'message': 'Invalid request data'}, status=400)
     else:
         return render(request, 'signup.html')
-    if request.method == 'POST':
-        try:
-            # Parse JSON data from request body
-            data = json.loads(request.body)
-            username = data['username']
-            email = data['email']
-            password = data['password1']
-            conform_password = data['password2']
-
-            if password != conform_password:
-                return JsonResponse({'message': 'password not mached'}, status=400)
-
-
-            # Check if username or email already exists
-            if UserCredentials.objects.filter(username=username).exists() or UserCredentials.objects.filter(email=email).exists():
-                return JsonResponse({'message': 'Username or email already exists'}, status=400)
-
-            # Create a new UserCredentials instance
-            user_credentials = UserCredentials.objects.create(username=username, email=email, password=password)
-            print("hi")
-            
-            return redirect('login')
-        except KeyError:
-            return JsonResponse({'message': 'Invalid request data'}, status=400)
-    else:
-        return render(request, 'signup.html')
