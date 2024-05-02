@@ -96,6 +96,11 @@ def submit_answers(request):
     if request.method == 'POST':
         answers = request.POST.getlist('answers')
         questions = request.session.get('questions')
+        for i in questions:
+            print(request.POST.get("answers_"+str(i["qust_d_id"])))
+            
+
+
         del request.session['questions']
         print(answers)
         print(questions)
