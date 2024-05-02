@@ -6,9 +6,11 @@ from chatbot.models import option_details
 # Create an instance of your model with the data you want to insert
 instance1 = question_master(qust_title='Pneumonia symptoms', is_enabled=1)
 instance2 = question_master(qust_title='Covid symptoms', is_enabled=1)
+instance11 = question_master(qust_title='General questions', is_enabled=1)
 
 instance3 = question_details(qust_id=1, questions="Which symptoms are you experiencing right now?", qust_type=1, order=1, parent_id=0, is_enabled=1)
 instance4 = question_details(qust_id=2, questions="Which symptoms are you experiencing right now?", qust_type=1, order=1, parent_id=0, is_enabled=1)
+instance5 = question_details(qust_id=3, questions="Do you want to book an appointment with the doctor?", qust_type=1, order=1, parent_id=0, is_enabled=1)
 
 ins3option1 = option_details(qust_d_id=1, option="High fever", order=1, is_enabled=1)
 ins3option2 = option_details(qust_d_id=1, option="Coughing up greenish, yellow, or bloody mucus", order=2, is_enabled=1)
@@ -35,6 +37,8 @@ ins4option10 = option_details(qust_d_id=2, option="Nausea or vomiting", order=10
 ins4option11 = option_details(qust_d_id=2, option="Diarrhea", order=11, is_enabled=1)
 ins4option12 = option_details(qust_d_id=2, option="None", order=12, is_enabled=1)
 
+ins5option1 = option_details(qust_d_id=3, option="Yes", order=1, is_enabled=1)
+ins5option2 = option_details(qust_d_id=3, option="No", order=2, is_enabled=1)
 # Save the instance to insert it into the database
 instance1.save()
 instance2.save()
