@@ -19,9 +19,10 @@ def Question1(result):
         qust_id = 1
     elif result == 'COVID19':
         qust_id = 2
-    # else:
+    else:
         # Handle other cases or direct to the second question
         # For now, let's assume it's 3
+        qust_id = 3
 
     questions = list(question_details.objects.filter(qust_id=qust_id).values())
     options = list(option_details.objects.filter(qust_d_id=qust_id).values())

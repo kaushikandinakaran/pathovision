@@ -65,13 +65,12 @@
     <p>ML Result: {{ result }}</p>
     <h2>Questions</h2>
 
-
     <div class="container">
         {% for question in questions %}
         <div class="question" id="question{{ forloop.counter }}" {% if forloop.first %}style="display: block;"{% else %}style="display: none;"{% endif %}>
             <form class="question-form">
                 {% csrf_token %}
-                <h2>Question {{ forloop.counter }}: {{ question }}</h2>
+                <h2>Question {{ forloop.counter }}: {{question}}</h2>
                 <ul class="options">
                     {% if question.multiple %}
                         {% for option in question.options %}
@@ -93,18 +92,9 @@
                     <button class="next-btn" onclick="submitQuestion({{ forloop.counter }}); return false;">Next</button>
                 {% endif %}
             </form>
-<!--         </div>
-<div class="container">
-    <div class="question" id="question1">
-		<form  action="{% url 'chatbot:submit_answers' %}" method="post" class="login">
-        {% csrf_token %}
-        {% for question in questions %}
-        <h2>{{ question }}:</h2>
-        <ul class="options">
-        <label>{{ question }} (Yes or No): <input type="text" name="answers"></label><br>
-
+        </div>
         {% endfor %}
-    </div> -->
+    </div>
 
     <script>
         function submitQuestion(questionIndex) {
