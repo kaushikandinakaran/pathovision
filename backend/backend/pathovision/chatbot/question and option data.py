@@ -88,17 +88,9 @@ ins6option1.save()
 
 #update
 
-from .models import YourModel  # Import your model representing the table
-
-def update_column(request):
-    # Retrieve the object you want to update
-    obj = YourModel.objects.get(id=1)  # Change this query as needed
-
-    # Update the column value
-    obj.column_name = new_value  # Replace 'column_name' and 'new_value' with your actual column name and new value
-
-    # Save the object to update the database
-    obj.save()
+obj = question_details.objects.get(qust_d_id=3)
+obj.qust_type = 2
+obj.save()
 
 data = question_master.objects.all()
 for item in data:
