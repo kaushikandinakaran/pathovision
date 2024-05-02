@@ -41,6 +41,8 @@ ins4option12 = option_details(qust_d_id=2, option="None", order=12, is_enabled=1
 ins5option1 = option_details(qust_d_id=3, option="Yes", order=1, is_enabled=1)
 ins5option2 = option_details(qust_d_id=3, option="No", order=2, is_enabled=1)
 
+ins6option1 = option_details(qust_d_id=4, option="Date and time", order=1, is_enabled=1)
+
 
 # Save the instance to insert it into the database
 instance1.save()
@@ -48,6 +50,9 @@ instance2.save()
 
 instance3.save()
 instance4.save()
+
+instance5.save()
+instance6.save()
 
 ins3option1.save()
 ins3option2.save()
@@ -75,8 +80,25 @@ ins4option11.save()
 ins4option12.save()
 
 
+ins5option1.save()
+ins5option2.save()
+
+ins6option1.save()
 
 
+#update
+
+from .models import YourModel  # Import your model representing the table
+
+def update_column(request):
+    # Retrieve the object you want to update
+    obj = YourModel.objects.get(id=1)  # Change this query as needed
+
+    # Update the column value
+    obj.column_name = new_value  # Replace 'column_name' and 'new_value' with your actual column name and new value
+
+    # Save the object to update the database
+    obj.save()
 
 data = question_master.objects.all()
 for item in data:

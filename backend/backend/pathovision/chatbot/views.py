@@ -68,10 +68,7 @@ def model_image(request):
 
             questions = ['asd', 'ert', 'dfg', 'dry']
             request.session['questions'] = questions
-
-            
-
-    return render(request, 'quiz.html', {'result': result, 'questions': questions})
+            return render(request, 'quiz.html', {'result': result, 'questions': questions})
 
 
 
