@@ -56,10 +56,10 @@
 
 <div class="container">
     <div class="question" id="question1">
-		<form  action="{% url 'login' %}" method="post" class="login">
+		<form  action="{% url 'chatbot:submit_answers' %}" method="post" class="login">
         {% csrf_token %}
         {% for question in questions %}
-        <h2>Question 1: Select the planets in our solar system:</h2>
+        <h2>{{ question }}:</h2>
         <ul class="options">
         <label>{{ question }} (Yes or No): <input type="text" name="answers"></label><br>
         {% endfor %}
