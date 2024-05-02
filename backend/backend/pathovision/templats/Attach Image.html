@@ -8,11 +8,19 @@
         /* Center align the form */
         body {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #00bfff;
+            background-color: #00bfff; /* Light gray background */
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .header img {
+            width: 200px; /* Adjust the width of the image as needed */
         }
         form {
             text-align: center;
@@ -42,7 +50,7 @@
     </style>
 </head>
 <body>
-    <h2>Upload an Image: </h2>
+    <h2>Upload the X-ray to get the result: </h2>
     <form action="{% url 'chatbot:upload' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <input type="file" name="image" accept="image/*" required>

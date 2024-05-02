@@ -21,6 +21,7 @@
         }
         .question {
             margin-bottom: 20px;
+            display: none;
         }
         h2 {
             margin-top: 0;
@@ -36,6 +37,17 @@
             display: inline-block;
             margin-right: 10px;
         }
+        .next-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .next-btn:hover {
+            background-color: #45a049;
+        }
         .submit-btn {
             background-color: #4CAF50;
             color: white;
@@ -50,10 +62,35 @@
     </style>
 </head>
 <body>
-   <h1>Result</h1>
+    <h1>Result</h1>
     <p>ML Result: {{ result }}</p>
     <h2>Questions</h2>
 
+
+    <div class="container">
+        {% for question in questions %}
+        <div class="question" id="question{{ forloop.counter }}" {% if forloop.first %}style="display: block;"{% endif %}>
+            <form class="question-form">
+                {% csrf_token %}
+                <h2>Question {{ forloop.counter }}: {{ question }}</h2>
+                <ul class="options">
+                    {% if forloop.first %}
+                        <label>Option 1: <input type="checkbox" name="answers"></label><br>
+                        <label>Option 2: <input type="checkbox" name="answers"></label><br>
+                        <label>Option 3: <input type="checkbox" name="answers"></label><br>
+                    {% else %}
+                        <label>Option A: <input type="radio" name="answers"></label><br>
+                        <label>Option B: <input type="radio" name="answers"></label><br>
+                        <label>Option C: <input type="radio" name="answers"></label><br>
+                    {% endif %}
+                </ul>
+                {% if forloop.last %}
+                    <button class="submit-btn">Submit</button>
+                {% else %}
+                    <button class="next-btn" onclick="submitQuestion({{ forloop.counter }}); return false;">Next</button>
+                {% endif %}
+            </form>
+<!--         </div>
 <div class="container">
     <div class="question" id="question1">
 		<form  action="{% url 'chatbot:submit_answers' %}" method="post" class="login">
@@ -62,25 +99,19 @@
         <h2>{{ question }}:</h2>
         <ul class="options">
         <label>{{ question }} (Yes or No): <input type="text" name="answers"></label><br>
+
         {% endfor %}
-        </ul>
-        <button class="submit-btn" onclick="submitQuestion('question1')">Submit</button>
-    </div>
+    </div> -->
 
-
-<script>
-    function submitQuestion(questionId) {
-        var currentQuestion = document.getElementById(questionId);
-        var nextQuestion = currentQuestion.nextElementSibling;
-        if (nextQuestion) {
-            nextQuestion.style.display = 'block';
-            var radios = nextQuestion.querySelectorAll('input[type="radio"]');
-            radios.forEach(function(radio) {
-                radio.disabled = false;
-            });
+    <script>
+        function submitQuestion(questionIndex) {
+            var currentQuestion = document.getElementById('question' + questionIndex);
+            currentQuestion.style.display = 'none'; // Hide current question
+            var nextQuestion = document.getElementById('question' + (questionIndex + 1));
+            if (nextQuestion) {
+                nextQuestion.style.display = 'block'; // Show next question
+            }
         }
-    }
-</script>
-
+    </script>
 </body>
 </html>
