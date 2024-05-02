@@ -15,18 +15,34 @@ from django.shortcuts import render
 from .models import question_details, option_details
 
 def Question1(result):
+    # import pdb
+    # pdb.set_trace()
     if result == 'PNEUMONIA':
-        qust_id = 1
+        excluded_ids = [2]  # Exclude COVID19 questions
     elif result == 'COVID19':
-        qust_id = 2
-    # else:
-        # Handle other cases or direct to the second question
-        # For now, let's assume it's 3
+        excluded_ids = [1]  # Exclude PNEUMONIA questions
+    else:
+        excluded_ids = [1, 2]  # Exclude both PNEUMONIA and COVID19 questions
 
-    questions = list(question_details.objects.filter(qust_id=qust_id).values())
-    options = list(option_details.objects.filter(qust_d_id=qust_id).values())
+    questions = list(question_details.objects.exclude(qust_id__in=excluded_ids).values())
+    options = list(option_details.objects.exclude(qust_d_id__in=excluded_ids).values())
 
-    return {'questions': questions, 'options': options}
+    return question_processing({'questions': questions, 'options': options})
+
+def question_processing(questions):
+    question_data = []
+    option_data = {}
+
+    for q in questions['questions']:
+        question_data.append({'qust_d_id': q['qust_d_id'], 'questions': q['questions']})
+
+    for option in questions['options']:
+        qust_d_id = option['qust_d_id']
+        if qust_d_id not in option_data:
+            option_data[qust_d_id] = {'qust_d_id': qust_d_id, 'options': []}
+        option_data[qust_d_id]['options'].append({'option_id': option['option_id'], 'option': option['option']})
+
+    return question_data, list(option_data.values())
 
 
 
@@ -52,9 +68,10 @@ def model_image(request):
 
             result = ml_code(file_path)
 
-            questionse = Question1(result)
+            questions, options= Question1(result)
             print(result)
-            print(questionse)
+            print(questions)
+            print(options)
 
             # data1 = question_master.objects.all()
             # print(data1)
@@ -65,12 +82,13 @@ def model_image(request):
             #     print("is_enabled:", item.is_enabled)
 
 
-            questions = ['asd', 'ert', 'dfg', 'dry']
+            # questions = ['asd', 'ert', 'dfg', 'dry']
             request.session['questions'] = questions
+            return render(request, 'quiz.html', {'result': result, 'questions': questions, 'options': options  })
 
             
 
-    return render(request, 'quiz.html', {'result': result, 'questions': questions})
+# def question_processing(questions):
 
 
 
@@ -78,6 +96,11 @@ def submit_answers(request):
     if request.method == 'POST':
         answers = request.POST.getlist('answers')
         questions = request.session.get('questions')
+        for i in questions:
+            print(request.POST.get("answers_"+str(i["qust_d_id"])))
+            
+
+
         del request.session['questions']
         print(answers)
         print(questions)

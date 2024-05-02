@@ -65,27 +65,22 @@
     <p>ML Result: {{ result }}</p>
     <h2>Questions</h2>
 
-
     <div class="container">
         {% for question in questions %}
         <div class="question" id="question{{ forloop.counter }}" {% if forloop.first %}style="display: block;"{% else %}style="display: none;"{% endif %}>
-            <form class="question-form">
+            <form class="question-form" action="{% url 'chatbot:submit_answers' %}" method="post">
                 {% csrf_token %}
-                <h2>Question {{ forloop.counter }}: {{ question }}</h2>
+                <h2>Question {{ forloop.counter }}: {{question.questions}}</h2>
                 <ul class="options">
-                    {% if question.multiple %}
-                        {% for option in question.options %}
-                            <label>{{ option }}: <input type="checkbox" name="answers"></label><br>
-                        {% endfor %}
-                    {% else %}
-                        {% for option in question.options %}
-                            {% if forloop.counter == 3 %}
-                                <label>{{ option }}: <input type="datetime-local" name="answers"></label><br>
-                            {% else %}
-                                <label>{{ option }}: <input type="radio" name="answers"></label><br>
-                            {% endif %}
-                        {% endfor %}
+                    {% for option in options %}
+                    {% if option.qust_d_id == question.qust_d_id %}
+                    {% for opt in option.options %}
+                    <li>
+                        <label><input type="checkbox" name="answers_{{ question.qust_d_id }}">{{ opt.option }}</label><br>
+                    </li>
+                    {% endfor %}
                     {% endif %}
+                    {% endfor %}
                 </ul>
                 {% if forloop.last %}
                     <button class="submit-btn">Submit</button>
@@ -93,18 +88,9 @@
                     <button class="next-btn" onclick="submitQuestion({{ forloop.counter }}); return false;">Next</button>
                 {% endif %}
             </form>
-<!--         </div>
-<div class="container">
-    <div class="question" id="question1">
-		<form  action="{% url 'chatbot:submit_answers' %}" method="post" class="login">
-        {% csrf_token %}
-        {% for question in questions %}
-        <h2>{{ question }}:</h2>
-        <ul class="options">
-        <label>{{ question }} (Yes or No): <input type="text" name="answers"></label><br>
-
+        </div>
         {% endfor %}
-    </div> -->
+    </div>
 
     <script>
         function submitQuestion(questionIndex) {
