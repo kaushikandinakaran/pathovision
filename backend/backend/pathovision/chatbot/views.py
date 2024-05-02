@@ -92,30 +92,43 @@ def model_image(request):
 
 
 
+from django.shortcuts import HttpResponse
+
 def submit_answers(request):
     if request.method == 'POST':
-        answers = request.POST.getlist('answers')
         questions = request.session.get('questions')
-        for i in questions:
-            print(request.POST.get("answers_"+str(i["qust_d_id"])))
-            
+        all_answers = []
 
-
+        for question in questions:
+            question_id = question['qust_d_id']
+            if question_id == 1 or question_id == 2:
+                # For questions with multiple correct answers
+                selected_options = request.POST.getlist(f"answers_{question_id}[]")
+                all_answers.append({'question': question['questions'], 'selected_options': selected_options})
+            elif question_id == 3:
+                # For questions with single correct answer
+                selected_option = request.POST.get(f"answers_{question_id}")
+                all_answers.append({'question': question['questions'], 'selected_option': selected_option})
+            elif question_id == 4:
+                # For questions requiring date and time selection
+                selected_datetime = request.POST.get(f"answers_{question_id}")
+                all_answers.append({'question': question['questions'], 'selected_datetime': selected_datetime})
+        
         del request.session['questions']
-        print(answers)
-        print(questions)
-
-        # Print the questions and answers
-        for question, answer in zip(questions, answers):
-            print(f"Question: {question}")
-            print(f"Answer: {answer}")
-
-        # You can process the answers further here, such as saving them to a database
+        
+        # Print or process the answers as needed
+        for answer in all_answers:
+            print("Question:", answer['question'])
+            if 'selected_options' in answer:
+                print("Selected Options IDs:", answer['selected_options'])
+            elif 'selected_option' in answer:
+                print("Selected Option ID:", answer['selected_option'])
+            elif 'selected_datetime' in answer:
+                print("Selected Datetime:", answer['selected_datetime'])
         
         return HttpResponse("Answers submitted successfully.")
     else:
         return HttpResponse("Invalid request method.")
-
 
 def ml_code(filename):
     ra = ["NORMAL", "COVID19", "PNEUMONIA"]
