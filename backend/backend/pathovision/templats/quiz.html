@@ -21,7 +21,6 @@
         }
         .question {
             margin-bottom: 20px;
-            display: none;
         }
         h2 {
             margin-top: 0;
@@ -69,19 +68,23 @@
 
     <div class="container">
         {% for question in questions %}
-        <div class="question" id="question{{ forloop.counter }}" {% if forloop.first %}style="display: block;"{% endif %}>
+        <div class="question" id="question{{ forloop.counter }}" {% if forloop.first %}style="display: block;"{% else %}style="display: none;"{% endif %}>
             <form class="question-form">
                 {% csrf_token %}
                 <h2>Question {{ forloop.counter }}: {{ question }}</h2>
                 <ul class="options">
-                    {% if forloop.first %}
-                        <label>Option 1: <input type="checkbox" name="answers"></label><br>
-                        <label>Option 2: <input type="checkbox" name="answers"></label><br>
-                        <label>Option 3: <input type="checkbox" name="answers"></label><br>
+                    {% if question.multiple %}
+                        {% for option in question.options %}
+                            <label>{{ option }}: <input type="checkbox" name="answers"></label><br>
+                        {% endfor %}
                     {% else %}
-                        <label>Option A: <input type="radio" name="answers"></label><br>
-                        <label>Option B: <input type="radio" name="answers"></label><br>
-                        <label>Option C: <input type="radio" name="answers"></label><br>
+                        {% for option in question.options %}
+                            {% if forloop.counter == 3 %}
+                                <label>{{ option }}: <input type="datetime-local" name="answers"></label><br>
+                            {% else %}
+                                <label>{{ option }}: <input type="radio" name="answers"></label><br>
+                            {% endif %}
+                        {% endfor %}
                     {% endif %}
                 </ul>
                 {% if forloop.last %}
